@@ -1,3 +1,5 @@
+"use strict";
+
 function processData(data) {
   if (!Array.isArray(data)) {
     throw new TypeError("Expected an array");
@@ -7,15 +9,22 @@ function processData(data) {
   let duplicateCount = 0;
 
   for (let i = 0; i < data.length; i++) {
-    if (seen.has(data[i])) {
+    const value = data[i];
+
+    if (seen.has(value)) {
       duplicateCount++;
     } else {
-      seen.add(data[i]);
+      seen.add(value);
     }
   }
 
   return duplicateCount;
 }
 
-const bigArray = new Array(50000).fill("x");
-processData(bigArray);
+try {
+  const bigArray = Array.from({ length: 50000 }, () => "x");
+  const result = processData(bigArray);
+  console.log("Duplicate count:", result);
+} catch (error) {
+  console.error("Error processing data:", error.message);
+}
