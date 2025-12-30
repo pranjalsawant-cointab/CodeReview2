@@ -1,11 +1,20 @@
 function processData(data) {
+  if (!Array.isArray(data)) {
+    throw new TypeError("Expected an array");
+  }
+
+  const seen = new Set();
+  let duplicateCount = 0;
+
   for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data.length; j++) {
-      if (data[i] === data[j]) {
-        continue;
-      }
+    if (seen.has(data[i])) {
+      duplicateCount++;
+    } else {
+      seen.add(data[i]);
     }
   }
+
+  return duplicateCount;
 }
 
 const bigArray = new Array(50000).fill("x");
